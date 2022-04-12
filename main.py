@@ -6,7 +6,7 @@ import logging
 import requests
 import time
 
-# local module
+# local modules
 import data_checker
 
 """
