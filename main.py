@@ -18,14 +18,24 @@ be important.
 """
 
 
-class BizztroScraper:
+class Scraper:
     def __init__(self):
-        self.url_base = 'https://www.bizztreat.com/bizztro?p1400='
-        self.output = 'mnamky.csv'
         self.csv_writer = None
 
+    @staticmethod
+    def get_parsed_page(url):
+        response = requests.get(url)
+        return BeautifulSoup(response.text, 'html.parser')
+
+
+class BizztroScraper(Scraper):
+    def __init__(self):
+        super().__init__()
+        self.url_base = 'https://www.bizztreat.com/bizztro?p1400='
+        self.output = 'mnamky.csv'
+
     def scrape(self):
-        page_1 = self.get_parsed_page(1)
+        page_1 = self.get_page_by_number(1)
         page_count = int(self.get_page_count(page_1))
         with open(self.output, 'w') as csv_file:
             self.csv_writer = csv.writer(csv_file)
@@ -40,14 +50,13 @@ class BizztroScraper:
         logging.info(f'pages to process synchronously: {page_count}')
         return page_count
 
-    def get_parsed_page(self, page_number):
-        response = requests.get(''.join([self.url_base, str(page_number)]))
-        return BeautifulSoup(response.text, 'html.parser')
+    def get_page_by_number(self, page_number):
+        return self.get_parsed_page(''.join([self.url_base, str(page_number)]))
 
     def extract_from_pages(self, start, end):
         for i in range(start, end):
             logging.info(f'{time.asctime()}:running')
-            page = self.get_parsed_page(i)
+            page = self.get_page_by_number(i)
             entries = page.find_all(class_='entry-inner')
             for entry in entries:
                 self.extract_entry(entry)
