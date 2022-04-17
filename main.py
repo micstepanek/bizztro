@@ -85,4 +85,3 @@ if __name__ == '__main__':
     scraper.scrape()
     data_checker.check(scraper.output)
     logging.info(f'Data was saved to {pathlib.Path(__file__).parent / scraper.output}')
-
