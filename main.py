@@ -1,4 +1,10 @@
 #!/usr/bin/env python3.10
+"""Scrapes all entries from all Bizztro pages and saves them to csv
+
+'asyncio' is not used to avoid triggering possible bot protection. It is possible to try asyncio later if speed will
+be important.
+'dataclasses' are not used, would be overkill
+"""
 
 from bs4 import BeautifulSoup
 import csv
@@ -8,14 +14,6 @@ import time
 
 # local modules
 import data_checker
-
-"""
-Scrapes all entries from all Bizztro pages and saves them to csv
-
-'asyncio' is not used to avoid triggering possible bot protection. It is possible to try asyncio later if speed will
-be important.
-'dataclasses' are not used, would be overkill
-"""
 
 
 class Scraper:
