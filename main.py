@@ -34,7 +34,7 @@ class BizztroScraper(Scraper):
 
     def scrape(self):
         page_1 = self.get_page_by_number(1)
-        page_count = int(self.get_page_count(page_1))
+        page_count = self.get_page_count(page_1)
         with open(self.output, 'w') as csv_file:
             self.csv_writer = csv.writer(csv_file)
             # this file is open for the whole run of the scraper.scrape()
