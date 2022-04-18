@@ -11,7 +11,6 @@ import csv
 import pathlib
 import logging
 import requests
-import time
 
 # local modules
 import data_checker
@@ -46,15 +45,15 @@ class BizztroScraper(Scraper):
     @staticmethod
     def get_page_count(page):
         page_count = int(page.find_all(class_='pagination-link')[-1].get_text())
-        logging.info(f'pages to process synchronously: {page_count}')
         return page_count
 
     def get_page_by_number(self, page_number):
         return self.get_parsed_page(''.join([self.url_base, str(page_number)]))
 
     def extract_from_pages(self, start, end):
+        page_count = end - 1
         for i in range(start, end):
-            logging.info(f'{time.asctime()}:running')
+            logging.info(f'scraping page {i} of {page_count}')
             page = self.get_page_by_number(i)
             entries = page.find_all(class_='entry-inner')
             for entry in entries:
